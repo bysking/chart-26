@@ -168,20 +168,20 @@
             </div>
           </div>
           <div class="empty-view" v-else-if="house.type === 'exclude'">
-            <div class="house-info-name" contenteditable="true">
-              {{ house.note || "不参与统计" }}
+            <div class="house-info-name">
+              {{ "不参与统计" }}
             </div>
           </div>
           <div
             class="empty-view"
             v-else-if="house.members === 0 && house.type !== 'no'"
           >
-            <div class="house-info-name" contenteditable="true">
+            <div class="house-info-name">
               {{ "无住户" }}
             </div>
           </div>
           <div class="empty-view" v-else-if="house.type === 'no'">
-            <div class="house-info-name" contenteditable="true">
+            <div class="house-info-name">
               {{ "无住户" }}
             </div>
           </div>

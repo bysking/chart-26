@@ -68,14 +68,12 @@ export const HOUSE_LIST = [
     name: "202室",
     members: 0,
     type: "no",
-    note: "无住户",
     count: getCount(),
   },
   {
     name: "203室",
     members: 0,
     type: "no",
-    note: "无住户",
     count: getCount(),
   },
   {
@@ -101,7 +99,6 @@ export const HOUSE_LIST = [
     name: "303室",
     members: 1,
     type: "no",
-    note: "无住户",
     count: getCount(),
   },
   {
@@ -121,7 +118,6 @@ export const HOUSE_LIST = [
     name: "402室",
     members: 0,
     type: "no",
-    note: "无住户",
     count: getCount(),
   },
   {
@@ -178,7 +174,6 @@ export const HOUSE_LIST = [
     name: "603室",
     members: 0,
     type: "no",
-    note: "无住户",
     count: getCount(),
   },
   {
