@@ -1,13 +1,13 @@
 <template>
-  <div style="position: relative; padding: 24px; 12px;">
+  <div style="position: relative">
     <div id="canvas" class="container">
       <div class="title-container">
-        <el-input
+        <input
           v-model="pageConfig.title"
           style="width: 300px"
           placeholder="请输入标题"
           class="title-wrap"
-        ></el-input>
+        />
       </div>
 
       <div class="select-house">
@@ -51,6 +51,15 @@
             >
               <div>
                 <div class="select-item">
+                  <span> 住户名称: </span>
+                  <el-input
+                    placeholder="请选择"
+                    style="width: 120px"
+                    v-model="house.name"
+                    maxlength="6"
+                  ></el-input>
+                </div>
+                <div class="select-item">
                   <span> 家庭人数: </span>
                   <el-select
                     v-model="house.members"
@@ -86,11 +95,13 @@
                 </div>
               </div>
               <div
-                style="height: 100%"
+                style="height: 100px"
                 class="link house-info"
                 slot="reference"
               >
-                <div>{{ house.name }}{{ house.members }}人</div>
+                <div style="width: 100%" class="house-info-name">
+                  {{ house.name }}{{ house.members }}人
+                </div>
               </div>
             </el-popover>
           </div>
@@ -157,22 +168,22 @@
             </div>
           </div>
           <div class="empty-view" v-else-if="house.type === 'exclude'">
-            <span contenteditable="true">
+            <div class="house-info-name" contenteditable="true">
               {{ house.note || "不参与统计" }}
-            </span>
+            </div>
           </div>
           <div
             class="empty-view"
             v-else-if="house.members === 0 && house.type !== 'no'"
           >
-            <span contenteditable="true">
+            <div class="house-info-name" contenteditable="true">
               {{ "无住户" }}
-            </span>
+            </div>
           </div>
           <div class="empty-view" v-else-if="house.type === 'no'">
-            <span contenteditable="true">
+            <div class="house-info-name" contenteditable="true">
               {{ "无住户" }}
-            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -182,21 +193,23 @@
       </h6>
     </div>
 
-    <el-button round class="mark-btn select-item" @click="saveDataInfo()"
-      >保存数据</el-button
-    >
-    <el-button round class="mark-btn select-item" @click="resetInfo()"
-      >重置数据</el-button
-    >
-    <el-button round class="mark-btn select-item" @click="exportPic()"
-      >导出图片</el-button
-    >
-    <el-button round @click="dialogFormVisible = true">新增房间</el-button>
-    <el-button round @click="delHouse()">删除房间</el-button>
-    <div>
-      <h5>
-        声明：本程序只为有需要的邻友提供统计便利，不做任何数据存储分析，使用人行为与本程序无关
-      </h5>
+    <div class="bottom-area">
+      <el-button round class="mark-btn select-item" @click="saveDataInfo()"
+        >保存数据</el-button
+      >
+      <el-button round class="mark-btn select-item" @click="resetInfo()"
+        >重置数据</el-button
+      >
+      <el-button round class="mark-btn select-item" @click="exportPic()"
+        >导出图片</el-button
+      >
+      <el-button round @click="dialogFormVisible = true">新增房间</el-button>
+      <el-button round @click="delHouse()">删除房间</el-button>
+      <div>
+        <h5>
+          声明：本程序只为有需要的邻友提供统计便利，不做任何数据存储分析，使用人行为与本程序无关
+        </h5>
+      </div>
     </div>
 
     <el-dialog
@@ -236,8 +249,8 @@
 import { HOUSE_LIST, peopleTypeOptions, getCount } from "./const";
 import html2canvas from "html2canvas";
 
-const titleStr = "抗原自测邻友汇总";
-const HOUSE_OPTIONS = new Array(100).fill(1).map((item, index) => {
+const titleStr = "抗原、核酸检测汇总";
+const HOUSE_OPTIONS = new Array(200).fill(1).map((item, index) => {
   let val = index + 1;
   return {
     label: val,
@@ -261,7 +274,7 @@ export default {
       dialogFormVisible: false,
       pageConfig: {
         title: titleStr,
-        id: 26,
+        id: 99,
       },
       houseList: JSON.parse(JSON.stringify(HOUSE_LIST)),
       selectValue: "",
@@ -320,7 +333,7 @@ export default {
     onSubmit() {
       if (this.houseList.length >= 300) {
         this.$message({
-          message: "最多添加300户",
+          message: "最多添加300间住户",
           type: "warning",
         });
         return;
@@ -338,7 +351,7 @@ export default {
     delHouse() {
       if (this.houseList.length <= 1) {
         this.$message({
-          message: "请保留住户",
+          message: "请至少保留一名住户",
           type: "warning",
         });
         return;
@@ -392,10 +405,6 @@ export default {
           a.setAttribute("download", "chart-download");
           a.click();
         }
-        this.$message({
-          message: "成功",
-          type: "success",
-        });
       });
     },
     reset() {
@@ -589,6 +598,11 @@ export default {
   align-items: center;
   justify-content: center;
 }
+.house-info-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .select-house {
   display: flex;
@@ -606,7 +620,7 @@ export default {
 .title-wrap {
   display: inline-block;
   border: none !important;
-  font-size: 24px;
+  font-size: 18px;
   height: 40px;
   line-height: 40px;
   font-weight: bold;
@@ -615,8 +629,13 @@ export default {
 }
 .title-wrap /deep/.el-input__inner {
   border: none !important;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
   text-align: left;
+}
+
+.bottom-area {
+  position: absolute;
+  width: 100%;
 }
 </style>
