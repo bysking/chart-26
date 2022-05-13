@@ -168,7 +168,7 @@
             </div>
           </div>
           <div class="empty-view" v-else-if="house.type === 'exclude'">
-            <div class="house-info-name">
+            <div class="house-info-empty">
               {{ "不参与统计" }}
             </div>
           </div>
@@ -176,12 +176,12 @@
             class="empty-view"
             v-else-if="house.members === 0 && house.type !== 'no'"
           >
-            <div class="house-info-name">
+            <div class="house-info-empty">
               {{ "无住户" }}
             </div>
           </div>
           <div class="empty-view" v-else-if="house.type === 'no'">
-            <div class="house-info-name">
+            <div class="house-info-empty">
               {{ "无住户" }}
             </div>
           </div>
@@ -561,7 +561,6 @@ export default {
 
 .empty-view {
   width: 121px;
-  height: 100px;
   line-height: 100px;
   background-color: #eeeeee;
   color: #331a00;
@@ -597,6 +596,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.house-info-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .house-info-name {
   white-space: nowrap;
