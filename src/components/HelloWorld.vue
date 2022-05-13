@@ -1,8 +1,7 @@
 <template>
-  <div style="position: relative">
+  <div style="position: relative; padding: 24px; 12px;">
     <div id="canvas" class="container">
       <div class="title-container">
-        <div class="title-wrap">{{ pageConfig.id }}号楼</div>
         <el-input
           v-model="pageConfig.title"
           style="width: 300px"
@@ -30,6 +29,9 @@
             >
             </el-option>
           </el-select>
+          <div class="title-wrap" style="margin-left: 8px">
+            {{ pageConfig.id }}号楼
+          </div>
         </div>
         <div style="padding-bottom: 8px">更新时间：{{ dateStr }}</div>
       </div>
@@ -180,10 +182,10 @@
       </h6>
     </div>
 
-    <el-button round class="mark-btn select-item" @click="saveData()"
+    <el-button round class="mark-btn select-item" @click="saveDataInfo()"
       >保存数据</el-button
     >
-    <el-button round class="mark-btn select-item" @click="reset()"
+    <el-button round class="mark-btn select-item" @click="resetInfo()"
       >重置数据</el-button
     >
     <el-button round class="mark-btn select-item" @click="exportPic()"
@@ -316,13 +318,36 @@ export default {
 
   methods: {
     onSubmit() {
+      if (this.houseList.length >= 300) {
+        this.$message({
+          message: "最多添加300户",
+          type: "warning",
+        });
+        return;
+      }
+
       let data = JSON.parse(JSON.stringify(this.formData));
       data.count = getCount();
       this.houseList.push(data);
       this.dialogFormVisible = false;
+      this.$message({
+        message: "成功",
+        type: "success",
+      });
     },
     delHouse() {
+      if (this.houseList.length <= 1) {
+        this.$message({
+          message: "请保留住户",
+          type: "warning",
+        });
+        return;
+      }
       this.houseList.pop();
+      this.$message({
+        message: "成功",
+        type: "success",
+      });
     },
     exportPic() {
       /*图片跨域及截图模糊处理*/
@@ -367,6 +392,10 @@ export default {
           a.setAttribute("download", "chart-download");
           a.click();
         }
+        this.$message({
+          message: "成功",
+          type: "success",
+        });
       });
     },
     reset() {
@@ -374,6 +403,20 @@ export default {
       this.houseList = JSON.parse(JSON.stringify(HOUSE_LIST));
       this.pageConfig.title = titleStr;
       this.saveData();
+    },
+    resetInfo() {
+      this.reset();
+      this.$message({
+        message: "成功",
+        type: "success",
+      });
+    },
+    saveDataInfo() {
+      this.saveData();
+      this.$message({
+        message: "成功",
+        type: "success",
+      });
     },
     saveData() {
       let houseId = this.pageConfig.id;
@@ -527,7 +570,7 @@ export default {
 }
 
 .container {
-  padding: 4px 0;
+  padding: 32px 0;
 }
 
 .add-house {
