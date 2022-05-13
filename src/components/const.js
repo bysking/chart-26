@@ -4,7 +4,7 @@ export const STAT = {
   yang: "3",
 };
 
-function getCount(num = 3) {
+export function getCount(num = 3) {
   return new Array(num).fill(1).map((item, index) => {
     return {
       id: index,
@@ -26,8 +26,8 @@ export const peopleTypeOptions = [
     value: "no",
   },
   {
-    label: "居委",
-    value: "jw",
+    label: "不参与统计",
+    value: "exclude",
   },
 ];
 
@@ -47,8 +47,8 @@ export const HOUSE_LIST = [
   {
     name: "103室",
     members: 0,
-    type: "jw",
-    note: "居委",
+    type: "exclude",
+    note: "不参与统计",
     count: getCount(),
   },
   {
@@ -68,14 +68,14 @@ export const HOUSE_LIST = [
     name: "202室",
     members: 0,
     type: "no",
-    note: "无人",
+    note: "无住户",
     count: getCount(),
   },
   {
     name: "203室",
     members: 0,
     type: "no",
-    note: "无人",
+    note: "无住户",
     count: getCount(),
   },
   {
@@ -92,21 +92,20 @@ export const HOUSE_LIST = [
     count: getCount(),
   },
   {
-    name: "302室 -",
+    name: "302室",
     members: 0,
     type: "no",
-    note: "-",
     count: getCount(),
   },
   {
     name: "303室",
     members: 1,
     type: "no",
-    note: "无人",
+    note: "无住户",
     count: getCount(),
   },
   {
-    name: "304室-",
+    name: "304室",
     members: 1,
     type: "zh",
     count: getCount(),
@@ -122,7 +121,7 @@ export const HOUSE_LIST = [
     name: "402室",
     members: 0,
     type: "no",
-    note: "无人",
+    note: "无住户",
     count: getCount(),
   },
   {
@@ -179,7 +178,7 @@ export const HOUSE_LIST = [
     name: "603室",
     members: 0,
     type: "no",
-    note: "无人",
+    note: "无住户",
     count: getCount(),
   },
   {
@@ -205,6 +204,12 @@ export const HOUSE_LIST = [
     name: "703室",
     members: 2,
     type: "zh",
+    count: getCount(),
+  },
+  {
+    name: "704室",
+    members: 0,
+    type: "no",
     count: getCount(),
   },
 ];
