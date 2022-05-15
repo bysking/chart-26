@@ -29,110 +29,44 @@
             >
             </el-option>
           </el-select>
-          <div class="title-wrap" style="margin-left: 8px">
-            {{ pageConfig.id }}号楼
-          </div>
         </div>
-        <div style="padding-bottom: 8px">更新时间：{{ dateStr }}</div>
+        <div style="padding-bottom: 8px; margin-left: 8px">
+          更新时间：{{ dateStr }}
+        </div>
       </div>
 
       <div class="hello">
-        <div
-          class="house-item"
-          v-for="(house, houseIndex) in houseList"
-          :key="houseIndex"
-        >
-          <div class="house-item-left">
-            <el-popover
-              placement="right"
-              width="200"
-              height="400"
-              trigger="click"
-            >
-              <div>
-                <div class="select-item">
-                  <span> 住户名称: </span>
-                  <el-input
-                    placeholder="请选择"
-                    style="width: 120px"
-                    v-model="house.name"
-                    maxlength="6"
-                  ></el-input>
-                </div>
-                <div class="select-item">
-                  <span> 家庭人数: </span>
-                  <el-select
-                    v-model="house.members"
-                    placeholder="请选择"
-                    allow-create
-                    filterable
-                    style="width: 120px"
-                  >
-                    <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    >
-                    </el-option>
-                  </el-select>
-                </div>
-                <div class="select-item">
-                  <span> 居住类型: </span>
-                  <el-select
-                    v-model="house.type"
-                    placeholder="请选择"
-                    style="width: 120px"
-                  >
-                    <el-option
-                      v-for="item in peopleTypeOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    >
-                    </el-option>
-                  </el-select>
-                </div>
-              </div>
-              <div
-                style="height: 100px"
-                class="link house-info"
-                slot="reference"
+        <div class="border-top">
+          <div
+            class="house-item"
+            v-for="(house, houseIndex) in houseList"
+            :key="houseIndex"
+          >
+            <div class="house-item-left">
+              <el-popover
+                placement="right"
+                width="200"
+                height="400"
+                trigger="click"
               >
-                <div style="width: 100%" class="house-info-name">
-                  {{ house.name }}{{ house.members }}人
-                </div>
-              </div>
-            </el-popover>
-          </div>
-          <div class="house-item-right" v-if="house.type === 'zh'">
-            <div
-              class="cout-item"
-              :class="getClass(countItem.results)"
-              v-for="(countItem, resultIndex) in house.count"
-              :key="resultIndex"
-            >
-              <el-popover placement="right" width="300" trigger="click">
                 <div>
-                  <el-button
-                    round
-                    class="mark-btn select-item"
-                    @click="markYin(countItem, house.members)"
-                    >标记全阴</el-button
-                  >
-                  <el-button
-                    round
-                    class="mark-btn select-item"
-                    @click="resetYin(countItem)"
-                    >重置标记</el-button
-                  >
                   <div class="select-item">
-                    <span class="test-ying-text"> 阴性: </span>
+                    <span> 住户名称: </span>
+                    <el-input
+                      placeholder="请选择"
+                      style="width: 120px"
+                      v-model="house.name"
+                      maxlength="6"
+                    ></el-input>
+                  </div>
+                  <div class="select-item">
+                    <span> 家庭人数: </span>
                     <el-select
-                      v-model="countItem.results.yin"
+                      v-model="house.members"
                       placeholder="请选择"
                       allow-create
                       filterable
+                      style="width: 120px"
                     >
                       <el-option
                         v-for="item in options"
@@ -144,15 +78,14 @@
                     </el-select>
                   </div>
                   <div class="select-item">
-                    <span class="test-yang-text"> 阳性: </span>
+                    <span> 居住类型: </span>
                     <el-select
-                      v-model="countItem.results.yang"
+                      v-model="house.type"
                       placeholder="请选择"
-                      allow-create
-                      filterable
+                      style="width: 120px"
                     >
                       <el-option
-                        v-for="item in options"
+                        v-for="item in peopleTypeOptions"
                         :key="item.value"
                         :label="item.label"
                         :value="item.value"
@@ -161,28 +94,96 @@
                     </el-select>
                   </div>
                 </div>
-                <div class="link" slot="reference">
-                  {{ getStateText(countItem.results) }}
+                <div
+                  style="height: 100px"
+                  class="link house-info"
+                  slot="reference"
+                >
+                  <div style="width: 100%" class="house-info-name">
+                    {{ house.name }}{{ house.members }}人
+                  </div>
                 </div>
               </el-popover>
             </div>
-          </div>
-          <div class="empty-view" v-else-if="house.type === 'exclude'">
-            <div class="house-info-empty">
-              {{ "不参与统计" }}
+            <div class="house-item-right" v-if="house.type === 'zh'">
+              <div
+                class="cout-item"
+                :class="getClass(countItem.results)"
+                v-for="(countItem, resultIndex) in house.count"
+                :key="resultIndex"
+              >
+                <el-popover placement="right" width="300" trigger="click">
+                  <div>
+                    <el-button
+                      round
+                      class="mark-btn select-item"
+                      @click="markYin(countItem, house.members)"
+                      >标记全阴</el-button
+                    >
+                    <el-button
+                      round
+                      class="mark-btn select-item"
+                      @click="resetYin(countItem)"
+                      >重置标记</el-button
+                    >
+                    <div class="select-item">
+                      <span class="test-ying-text"> 阴性: </span>
+                      <el-select
+                        v-model="countItem.results.yin"
+                        placeholder="请选择"
+                        allow-create
+                        filterable
+                      >
+                        <el-option
+                          v-for="item in options"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                        </el-option>
+                      </el-select>
+                    </div>
+                    <div class="select-item">
+                      <span class="test-yang-text"> 阳性: </span>
+                      <el-select
+                        v-model="countItem.results.yang"
+                        placeholder="请选择"
+                        allow-create
+                        filterable
+                      >
+                        <el-option
+                          v-for="item in options"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                        </el-option>
+                      </el-select>
+                    </div>
+                  </div>
+                  <div class="link" slot="reference">
+                    {{ getStateText(countItem.results) }}
+                  </div>
+                </el-popover>
+              </div>
             </div>
-          </div>
-          <div
-            class="empty-view"
-            v-else-if="house.members === 0 && house.type !== 'no'"
-          >
-            <div class="house-info-empty">
-              {{ "无住户" }}
+            <div class="empty-view" v-else-if="house.type === 'exclude'">
+              <div class="house-info-empty">
+                {{ "不参与统计" }}
+              </div>
             </div>
-          </div>
-          <div class="empty-view" v-else-if="house.type === 'no'">
-            <div class="house-info-empty">
-              {{ "无住户" }}
+            <div
+              class="empty-view"
+              v-else-if="house.members === 0 && house.type !== 'no'"
+            >
+              <div class="house-info-empty">
+                {{ "无住户" }}
+              </div>
+            </div>
+            <div class="empty-view" v-else-if="house.type === 'no'">
+              <div class="house-info-empty">
+                {{ "无住户" }}
+              </div>
             </div>
           </div>
         </div>
@@ -498,15 +499,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .house-item {
-  /* border: 1px solid #3d3d3d; */
-  width: 200px;
+  border: 1px solid #3d3d3d;
   display: flex;
   align-items: stretch;
 }
 
 .house-item-left {
   border-right: 1px solid #3d3d3d;
-  border-bottom: 1px solid #3d3d3d;
   width: 80px;
   flex-shrink: 0;
 }
@@ -514,7 +513,6 @@ export default {
   display: flex;
   width: 120px;
   flex-direction: column;
-  border-right: 1px solid #3d3d3d;
 }
 
 .cout-item {
@@ -560,21 +558,24 @@ export default {
 }
 
 .empty-view {
-  width: 121px;
+  width: 120px;
   line-height: 100px;
   background-color: #eeeeee;
   color: #331a00;
-  border-right: 1px solid #3d3d3d;
-  border-bottom: 1px solid #3d3d3d;
 }
 
 .hello {
   margin: auto;
   display: flex;
-  width: 801px;
+  width: 100%;
   flex-wrap: wrap;
   border-left: 1px solid #3d3d3d;
-  border-top: 1px solid #3d3d3d;
+}
+
+.hello .border-top {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 .container {
@@ -616,7 +617,6 @@ export default {
   align-items: center;
   margin-bottom: 4px;
   justify-content: space-around;
-  min-width: 700px;
 }
 
 .title-container {
@@ -644,5 +644,10 @@ export default {
 .bottom-area {
   position: absolute;
   width: 100%;
+}
+
+.bottom-area .el-button {
+  margin-left: 2px;
+  padding: 6px 12px;
 }
 </style>

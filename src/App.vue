@@ -22,7 +22,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: 8px;
-  min-width: 820px;
+  width: 100vw;
+  min-width: 416px;
+  max-width: 812px;
+  margin: auto;
 }
 </style>
